@@ -58,13 +58,13 @@ class siftImage:
         print('Generating Gaussian kernels...')
         logger.debug('Generating scales...')
         num_images_per_octave = interval_num + 3
-        k = 2 ** (1. / interval_num)
+        t = 2 ** (1. / interval_num)
         gaussian_kernels = zeros(num_images_per_octave)  # scale of gaussian blur necessary to go from one blur scale to the next within an octave
         gaussian_kernels[0] = sigma
 
         for image_index in range(1, num_images_per_octave):
-            sigma_previous = (k ** (image_index - 1)) * sigma
-            sigma_total = k * sigma_previous
+            sigma_previous = (t ** (image_index - 1)) * sigma
+            sigma_total = t * sigma_previous
             gaussian_kernels[image_index] = sqrt(sigma_total ** 2 - sigma_previous ** 2)
         return gaussian_kernels
 
@@ -439,9 +439,9 @@ if __name__ == "__main__":
     mysift = siftImage()
 
     # Compute SIFT keypoints and descriptors
-    print("-------Computing Keypoints and Descriptors for Image 1-------")
+    print("-----Computing Keypoints and Descriptors for Object Image-----")
     kp1, des1 = mysift.computeKeypointsAndDescriptors(img1)
-    print("\n-------Computing Keypoints and Descriptors for Image 2-------")
+    print("\n-----Computing Keypoints and Descriptors for Scene Image-----")
     kp2, des2 = mysift.computeKeypointsAndDescriptors(img2)
 
     # Initialize and use FLANN
